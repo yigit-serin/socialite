@@ -151,7 +151,11 @@ class FacebookProvider extends AbstractProvider implements ProviderInterface
         $key['n'] = new BigInteger(JWT::urlsafeB64Decode($key['n']), 256);
         $key['e'] = new BigInteger(JWT::urlsafeB64Decode($key['e']), 256);
 
-        return new Key((string) RSA::load($key), 'RS256');
+        //phpseclib 2 için güncellendi.
+        $rsa = new RSA();
+        $rsa->loadKey($key);
+        return new Key((string) $rsa, 'RS256');
+        //return new Key((string) RSA::load($key), 'RS256');
     }
 
     /**
